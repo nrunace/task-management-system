@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X } from 'lucide-react';
+import { X, Eye, EyeOff } from 'lucide-react';
 import moodleLogo from '../assets/moodle-logo.png';
 
 export default function LoginModal({ onClose, switchToRegister, switchToForgotPassword }) {
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
     
     const [formData, setFormData] = useState({
         email: '',
@@ -94,14 +95,23 @@ export default function LoginModal({ onClose, switchToRegister, switchToForgotPa
                             <label className="block text-xs font-semibold text-slate-700">Password</label>
                             <button type="button" onClick={switchToForgotPassword} className="text-xs text-slate-400 hover:text-blue-500">Forgot?</button>
                         </div>
-                        <input 
-                            type="password" 
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            placeholder="••••••••" 
-                            className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400 text-sm placeholder-slate-400"
-                        />
+                        <div className="relative">
+                            <input 
+                                type={showPassword ? "text" : "password"} 
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                placeholder="••••••••" 
+                                className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400 text-sm placeholder-slate-400 pr-10"
+                            />
+                            <button 
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
+                            >
+                                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
+                        </div>
                     </div>
 
                     <button type="submit" className="w-full bg-emerald-400 hover:bg-emerald-500 text-white font-medium py-2.5 rounded-lg transition-colors mt-2">

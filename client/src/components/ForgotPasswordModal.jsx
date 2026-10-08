@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, CheckCircle, Lock, Mail, X } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Lock, Mail, X, Eye, EyeOff } from 'lucide-react';
 import moodleLogo from '../assets/moodle-logo.png';
 
 export default function ForgotPasswordModal({ onClose, switchToLogin }) {
@@ -8,6 +8,8 @@ export default function ForgotPasswordModal({ onClose, switchToLogin }) {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [step, setStep] = useState('email');
     const [error, setError] = useState('');
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleFindAccount = (event) => {
         event.preventDefault();
@@ -90,14 +92,41 @@ export default function ForgotPasswordModal({ onClose, switchToLogin }) {
                                     <span className="mb-1.5 block text-xs font-semibold text-slate-700">New password</span>
                                     <div className="relative">
                                         <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                                        <input autoFocus type="password" value={newPassword} onChange={(event) => { setNewPassword(event.target.value); setError(''); }} placeholder="At least 6 characters" className="w-full rounded-lg border border-slate-200 px-4 py-2.5 pl-10 text-sm outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20" />
+                                        <input 
+                                            autoFocus 
+                                            type={showPassword ? "text" : "password"}  
+                                            value={newPassword} 
+                                            onChange={(event) => { setNewPassword(event.target.value); setError(''); }} 
+                                            placeholder="At least 6 characters" 
+                                            className="w-full rounded-lg border border-slate-200 px-4 py-2.5 pl-10 text-sm outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20" 
+                                        />
+                                        <button 
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
+                                        >
+                                            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                        </button>
                                     </div>
                                 </label>
                                 <label className="block">
                                     <span className="mb-1.5 block text-xs font-semibold text-slate-700">Confirm new password</span>
                                     <div className="relative">
                                         <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                                        <input type="password" value={confirmPassword} onChange={(event) => { setConfirmPassword(event.target.value); setError(''); }} placeholder="Repeat your password" className="w-full rounded-lg border border-slate-200 px-4 py-2.5 pl-10 text-sm outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20" />
+                                        <input 
+                                            type={showPassword ? "text" : "password"} 
+                                            value={confirmPassword} 
+                                            onChange={(event) => { setConfirmPassword(event.target.value); setError(''); }} 
+                                            placeholder="Repeat your password" 
+                                            className="w-full rounded-lg border border-slate-200 px-4 py-2.5 pl-10 text-sm outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20" 
+                                        />
+                                        <button 
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
+                                        >
+                                            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                        </button>
                                     </div>
                                 </label>
                                 <button type="submit" className="w-full rounded-lg bg-blue-500 py-2.5 font-medium text-white transition hover:bg-blue-600">Update password</button>
